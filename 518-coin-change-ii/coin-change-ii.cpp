@@ -1,7 +1,7 @@
 class Solution {
 public:
     int solve(int ind, int k, vector<int>&arr,vector<vector<int>>&dp){
-        if(k==0) return 1;
+        // if(k==0) return 1;
         if(ind ==0){
             if(k%arr[ind]==0) return 1;
             return 0;
