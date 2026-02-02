@@ -3,6 +3,7 @@ public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         unordered_map<string, vector<string>> adj;
         for(int j=0;j<wordList.size();j++){
+            
                 string s=beginWord,t=wordList[j];
                 int count=0;
                 for(int k=0;k<s.size();k++){
@@ -26,6 +27,7 @@ public:
                 }
             }
         }
+        if(adj.find(endWord)==adj.end()) return 0;
         int count=1;
         queue<string>q;
         unordered_map<string, int> visited;
