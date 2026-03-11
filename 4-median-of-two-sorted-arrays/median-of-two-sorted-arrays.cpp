@@ -1,48 +1,35 @@
 class Solution {
 public:
-    vector<int>func(vector<int>& nums1, vector<int>& nums2){
-        vector<int>ans;
-        int n=nums1.size();
-        int m=nums2.size();
-        int i=0,j=0;
-        while(i<n && j<m){
-            if(nums1[i]<nums2[j]){
-                ans.push_back(nums1[i]);
-                i++;
-            }
-            else if(nums1[i]>nums2[j]){
-                ans.push_back(nums2[j]);
-                j++;
-            }
-            else if(nums1[i]==nums2[j]){
-                ans.push_back(nums1[i]);
-                ans.push_back(nums2[j]);
-                i++,j++;
-            }
-        }
-        while(i<n){
-            ans.push_back(nums1[i]);
-            i++;
-        }
-        while(j<m){
-            ans.push_back(nums2[j]);
-            j++;
-        }
-        for(int i=0;i<ans.size();i++){
-            cout<<ans[i]<<" ";
-        }
-        return ans;
-    }
+    
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-       vector<int>ans=func(nums1,nums2);
-       double rest;
-       if(ans.size()%2==0){
-        int med=ans.size()/2;
-        rest=(ans[med]+ans[med-1])/2.0;
-        return rest;
-       }
-       else{
-         return rest=ans[ans.size()/2];
-       }
+      if(nums1.size()>nums2.size()) return findMedianSortedArrays(nums2,nums1);
+      int n=nums1.size();
+      int m=nums2.size();
+      int left=(n+m+1)/2;
+      int low=0;
+      int high=n;
+      int mid1=low+(high-low)/2;
+      while(low<=high){
+        int mid2=left-mid1;
+        int l1=INT_MIN,l2=INT_MIN;
+        int r1=INT_MAX,r2=INT_MAX;
+        if(mid1<n)r1=nums1[mid1];
+        if(mid2<m)r2=nums2[mid2];
+        if(mid1-1>=0)l1=nums1[mid1-1];
+        if(mid2-1>=0)l2=nums2[mid2-1];
+        if(l1<=r2 && l2<=r1){
+            if((n+m)%2==1){
+                return max(l1,l2);
+            }
+            else{
+                return (double)(max(l1,l2)+min(r1,r2))/2.0;
+            }
+           
+        }
+        else if(l1>r2) high=mid1-1;
+        else low=mid1+1;
+        mid1=low+(high-low)/2;
+      }
+      return 0;
     }
 };
