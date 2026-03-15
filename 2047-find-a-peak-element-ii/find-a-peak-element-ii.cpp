@@ -1,27 +1,31 @@
 class Solution {
 public:
-    int dx[4]={-1,0,0,1};
-    int dy[4]={0,-1,1,0};
-    bool possible(int i,int j,vector<vector<int>>& mat){
-        for(int k=0;k<4;k++){
-            int x=i+dx[k];
-            int y=j+dy[k];
-            if(x>=0 && y>=0 && x<mat.size() && y<mat[0].size()){
-                if(mat[i][j]<mat[x][y]) return false ;
+    int func(int mid,int high,vector<vector<int>>& mat){
+        int ans=INT_MIN;
+        int ind=0;
+        for(int i=0;i<mat.size();i++){
+            if(mat[i][mid]>ans){
+                ans=mat[i][mid];
+                ind=i;
             }
-            else continue;
         }
-        return true;
+        return ind;
+
     }
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
         int n=mat.size();
         int m=mat[0].size();
-         for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++) {
-                if(possible(i,j,mat)){
-                    return {i, j};  
-                }
-            }
+        int s=0;
+        int e=m-1;
+        int mid=s+(e-s)/2;
+        while(s<=e){
+            int row=func(mid,e,mat);
+            int left=mid-1>=0?mat[row][mid-1]:-1;
+            int right=mid+1<m?mat[row][mid+1]:-1;
+            if(mat[row][mid]>left && mat[row][mid]>right) return {row,mid};
+            else if(right>=mat[row][mid]) s=mid+1;
+            else e=mid-1;
+            mid=s+(e-mid)/2;
         }
         
         return {-1, -1}; 
