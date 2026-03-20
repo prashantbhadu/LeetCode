@@ -1,13 +1,18 @@
 class Solution {
 public:
    int func(set<int> store) {
-        vector<int> v(store.begin(), store.end());
+        if (store.size() < 2) return 0; // or INT_MAX depending on need
+
         int diff = INT_MAX;
 
-        for (int i = 0; i < v.size(); i++) {
-            for (int j = i + 1; j < v.size(); j++) {
-                diff = min(diff, abs(v[i] - v[j]));
-            }
+        auto it = store.begin();
+        auto prev = it;
+        ++it;
+
+        while (it != store.end()) {
+            diff = min(diff, abs(*it - *prev));
+            prev = it;
+            ++it;
         }
 
         return diff;
