@@ -1,13 +1,15 @@
 class Solution {
 public:
+    int dx[4]={0,1,0,-1};
+    int dy[4]={1,0,-1,0};
     int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
         set<pair<int,int>>blocked;
         for(auto&o: obstacles){
             blocked.insert({o[0],o[1]});
         }
-        vector<pair<int,int>>directions ={
-            {0,1}, {1,0}, {0,-1}, {-1,0}
-        };
+        // vector<pair<int,int>>directions ={
+        //     {0,1}, {1,0}, {0,-1}, {-1,0}
+        // };
         int x=0;
         int y=0;
         int dir=0;
@@ -17,8 +19,8 @@ public:
             else if(cmd==-2) dir=(dir+3)%4;
             else{
                 while(cmd--){
-                    int nx=x+directions[dir].first;
-                    int ny=y+directions[dir].second;
+                    int nx=x+dx[dir];
+                    int ny=y+dy[dir];
                     if(blocked.count({nx,ny})) break;
                     x=nx;
                     y=ny;
