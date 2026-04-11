@@ -11,7 +11,7 @@ public:
             store[s[r]-'A']++;
             check=max(check,store[s[r]-'A']);
             len=r-l+1;
-            while(len-check>k){
+            if(len-check>k){
                 store[s[l]-'A']--;
                 l++;
                 len=r-l+1;
