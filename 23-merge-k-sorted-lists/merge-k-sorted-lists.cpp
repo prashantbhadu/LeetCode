@@ -13,9 +13,8 @@ public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         priority_queue<pair<int,ListNode*>, vector<pair<int,ListNode*>>, greater<pair<int,ListNode*>>> minHeap;
             for(auto node : lists){
-                while(node){
+                if(node){
                     minHeap.push({node->val,node});
-                    node = node->next;
                 }
             }
         ListNode* temp1= new ListNode(-1);
@@ -26,6 +25,9 @@ public:
             minHeap.pop();
             temp2->next=utha;
             temp2=temp2->next;
+            if(utha->next){
+                minHeap.push({utha->next->val, utha->next});
+            }
         }
         return temp1->next;                                                   
     }
