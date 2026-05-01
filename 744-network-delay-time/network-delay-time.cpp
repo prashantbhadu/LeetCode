@@ -1,37 +1,37 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<int>dist(n,1e9);
         vector<vector<pair<int,int>>>adj(n);
-        for(int i=0;i<times.size();i++){
-            int u=times[i][0];
-            int v=times[i][1];
-            int w=times[i][2];
-            adj[u-1].push_back({w,v-1});
+        for(auto nodes:times){
+            int from=nodes[0];
+            int to=nodes[1];
+            int time=nodes[2];
+            adj[from-1].push_back({to-1,time});
         }
         priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        vector<int>store(n,1e9);
+        dist[k-1]=0;
         pq.push({0,k-1});
-        store[k-1] = 0;
         while(!pq.empty()){
-            auto pr=pq.top();
-            int wtime=pr.first;
-            int node=pr.second;
+            pair<int,int>temp=pq.top();
             pq.pop();
-            for(auto it:adj[node]){
-                int nbr=it.second;
-                int nbr_wt=it.first;
-                int new_wt=wtime+nbr_wt;
-                if(new_wt<store[nbr]){
-                    pq.push({new_wt,nbr});
-                    store[nbr]=new_wt;
+            int time=temp.first;
+            int node=temp.second;
+            for(auto nbr:adj[node]){
+                int newt=time+nbr.second;
+                int newn=nbr.first;
+                if(newt<dist[newn]){
+                    dist[newn]=newt;
+                    pq.push({newt,newn});
+                    
                 }
             }
         }
         int ans=-1e9;
-        for(int i=0;i<store.size();i++){
-            if(store[i]==1e9) return -1;
-            else if(ans<store[i]){
-                ans = store[i];
+        for(int i=0;i<n;i++){
+            if(dist[i]==1e9) return -1;
+            else if(ans<dist[i]){
+                ans = dist[i];
             }
         }
         return ans;
