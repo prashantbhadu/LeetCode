@@ -19,7 +19,7 @@ public:
             int x=temp.second.first;
             int y=temp.second.second;
             pq.pop();
-            if(effort>dist[x][y]) continue;
+            // if(effort>dist[x][y]) continue;
             for(int i=0;i<4;i++){
                 int new_x=x+dx[i];
                 int new_y=y+dy[i];
