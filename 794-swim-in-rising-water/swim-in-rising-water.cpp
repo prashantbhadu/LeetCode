@@ -53,29 +53,29 @@ public:
     int dy[4]={1,-1,0,0};
     int swimInWater(vector<vector<int>>& grid) {
         int n=grid.size();
-        vector<vector<int>>dist(n,vector<int>(n,1e9));
-        dist[0][0]=grid[0][0];
-        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq;
-        pq.push({grid[0][0],{0,0}});
-        while(!pq.empty()){
-            pair<int,pair<int,int>>temp=pq.top();
-            pq.pop();
-            int time=temp.first;
-            int i=temp.second.first;
-            int j=temp.second.second;
-            cout<<"time-> "<<time<<" "<<"x-> "<<i<<" "<<"y-> "<<j<<endl;
-            if(i==n-1 && j==n-1) return time;
+        vector<pair<int,pair<int,int>>>cell;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                cell.push_back({grid[i][j],{i,j}});
+            }
+        }
+        sort(cell.begin(),cell.end());
+        vector<vector<int>>visit(n,vector<int>(n,0));
+        DisjointSet dsu(n*n);
+        for(auto&cells:cell){
+            int h=cells.first;
+            int i=cells.second.first;
+            int j=cells.second.second;
+            visit[i][j]=1;
             for(int k=0;k<4;k++){
                 int x=i+dx[k];
                 int y=j+dy[k];
-                if(x>=0 && x<n && y>=0 && y<n){
-                    int newtime=max(time,grid[x][y]);
-                    if(newtime<dist[x][y]){
-                        dist[x][y]=newtime;
-                        pq.push({newtime,{x,y}});
-                    }
-                }
+                if(x<0 || y<0 || x>=n || y>=n ||!visit[x][y]) continue;
+                int node=i*n+j;
+                int newnode=x*n+y;
+                dsu.unionBySize(node,newnode);
             }
+            if(dsu.findUPar(0)==dsu.findUPar(n*n-1)) return h;
         }
         return -1;
     }
