@@ -18,16 +18,18 @@ public:
         string k=s;
         reverse(k.begin(),k.end());
         int n=s.size();
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+       // vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+       vector<int>prev(n+1,0);
         for(int i=1;i<=n;i++){
+            vector<int>temp(n+1,0);
             for(int j=1;j<=n;j++){
-                int pick=-1e9;
                 if(s[i-1]==k[j-1]){
-                    dp[i][j]=1+dp[i-1][j-1];
+                    temp[j]=1+prev[j-1];
                 }
-                else dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+                else temp[j]=max(prev[j],temp[j-1]);
             }
+            prev=temp;
         }
-        return dp[n][n];
+        return prev[n];
     }
 };
