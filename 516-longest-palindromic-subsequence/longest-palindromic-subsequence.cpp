@@ -1,31 +1,31 @@
 class Solution {
 public:
-    int f(int end,int st, string& s){
-        if(st>end){
-            return 0;
-        }
-        if(s[st]==s[end]){
-            if(st==end) return 1+f(end-1,st+1,s);
+    int func(int start,int end,string&s){
+        if(start>end) return 0;
+        int pick=-1e9;
+        if(s[start]==s[end]){
+            if(start==end){
+                return 1;
+            }
             else{
-                return 2+f(end-1,st+1,s);
+                pick=2+func(start+1,end-1,s);
             }
         }
-        return max(f(end-1,st,s),f(end,st+1,s));
-
+        int not_pick=max(func(start+1,end,s),func(start,end-1,s));
+        return max(pick,not_pick);
     }
     int longestPalindromeSubseq(string s) {
+        string k=s;
+        reverse(k.begin(),k.end());
         int n=s.size();
-        string s2=s;
-        reverse(s2.begin(),s2.end());
         vector<vector<int>>dp(n+1,vector<int>(n+1,0));
-        for(int st=1;st<=n;st++){
+        for(int i=1;i<=n;i++){
             for(int j=1;j<=n;j++){
-                if(s[st-1]==s2[j-1]){
-                    dp[st][j]=1+dp[st-1][j-1];
-                    }
-                else{
-                    dp[st][j]=max(dp[st][j-1],dp[st-1][j]);
+                int pick=-1e9;
+                if(s[i-1]==k[j-1]){
+                    dp[i][j]=1+dp[i-1][j-1];
                 }
+                else dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
             }
         }
         return dp[n][n];
