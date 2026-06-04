@@ -1,13 +1,13 @@
 class Solution {
 public:
-    int func(vector<int>store){
+    int func(int x){
+        string store=to_string(x);
         int n = store.size();
         if(n < 3) return 0;
         int cnt = 0;
-
         for (int i = 1; i < n - 1; i++) {
-            if ((store[i] > store[i - 1] && store[i] > store[i + 1]) ||
-                (store[i] < store[i - 1] && store[i] < store[i + 1])) {
+            if ((store[i]-'0' > store[i - 1]-'0' && store[i]-'0' > store[i + 1]-'0') ||
+                (store[i]-'0' < store[i - 1]-'0' && store[i]-'0' < store[i + 1]-'0')) {
                 cnt++;
             }
         }
@@ -16,16 +16,8 @@ public:
     }
     int totalWaviness(int num1, int num2) {
         int count=0;
-        while(num1<=num2){
-            int val=num1;
-            vector<int>store;
-            while(val>0){
-                int digit=val%10;
-                store.push_back(digit);
-                val/=10;
-            }
-            count+=func(store);
-            num1++;
+        for(int i=num1;i<=num2;i++){
+            count+=func(i);
         }
         return count;
     }
