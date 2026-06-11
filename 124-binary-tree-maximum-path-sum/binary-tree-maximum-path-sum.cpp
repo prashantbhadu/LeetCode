@@ -11,17 +11,16 @@
  */
 class Solution {
 public:
-    int res=INT_MIN;
-    int dinky_loves_sajal(TreeNode* root){
-        if(root==NULL) return 0;
-        int left= max(0,dinky_loves_sajal(root->left));
-        int right=max(0,dinky_loves_sajal(root->right));
-        res=max(res,left+right+root->val);
+    int ans=INT_MIN;
+    int func(TreeNode* root){
+        if(root==NULL)return 0;
+        int left=max(0,func(root->left));
+        int right=max(0,func(root->right));
+        ans=max(ans,left+right+root->val);
         return root->val+max(left,right);
-
     }
     int maxPathSum(TreeNode* root) {
-        dinky_loves_sajal(root);
-        return res;
+        int cnt=func(root);
+        return ans;
     }
-};
+};   
