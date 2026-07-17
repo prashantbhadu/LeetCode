@@ -1,13 +1,6 @@
 class Solution {
 public:
-    int gcd(int val1, int val2){
-        while(val2!=0){
-            int rem=val1%val2;
-            val1=val2;
-            val2=rem;
-        }
-        return val1;
-    }
+    
     long long gcdSum(vector<int>& nums) {
         long long sum=0;
         int mx=INT_MIN;
