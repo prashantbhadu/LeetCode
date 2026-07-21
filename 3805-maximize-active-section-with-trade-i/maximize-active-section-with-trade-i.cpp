@@ -6,7 +6,7 @@ public:
             if(s[i]=='1') ones++;
         }
         int ans=ones;
-        s='1'+ s + '1';
+        // s='1'+ s + '1';
         int fzero;
         int n=s.size();
         int i=0;
