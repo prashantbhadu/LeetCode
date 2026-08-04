@@ -8,8 +8,16 @@ public:
         return max(p1_s,p1_e);
     }
     bool predictTheWinner(vector<int>& nums) {
-        int n=nums.size()-1;
-        return func(0,n,nums)>=0;
+        int n=nums.size();
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        for(int start=n-1;start>=0;start--){
+            for(int end=start+1;end<=n;end++){
+                int p1_s=nums[start] - dp[start+1][end];
+                int p1_e = nums[end-1] - dp[start][end-1];
+                dp[start][end]=max(p1_s,p1_e);
+            }
+        }
+        return dp[0][n]>=0;
         
     }
 };
