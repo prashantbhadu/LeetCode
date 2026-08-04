@@ -1,22 +1,19 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        unordered_map<int,int>mpp;
-        for(int i=0;i<nums.size();i++){
-            if(mpp.find(nums[i])==mpp.end()){
-                mpp.insert({nums[i],1});
-                //mpp[nums]++;
+        int result=0;
+        for(int i=0;i<=31;i++){
+            int temp=(1<<i);
+            int cnto=0;
+            int cntz=0;
+            for(auto num:nums){
+                if((temp&num)==0)cntz++;
+                else cnto++;
             }
-            else mpp[nums[i]]++;
-        }
-        int ans;
-        for(auto &[it,frq]:mpp){
-
-            if(frq<3){
-                ans=it;
-                break;
+            if(cnto%3==1){
+                result = (result|temp);
             }
         }
-        return ans;
+        return result;
     }
 };
