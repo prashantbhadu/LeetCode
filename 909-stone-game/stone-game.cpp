@@ -9,8 +9,15 @@ public:
     }
     bool stoneGame(vector<int>& piles) {
         int n=piles.size();
-        vector<vector<int>>dp(n,vector<int>(n,-1));
-        if(func(piles,0,n-1,dp)>0) return true;
+        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        for(int start=n-1;start>=0;start--){
+            for(int end=start+1;end<n;end++){
+                int s = piles[start] - dp[start+1][end];
+                int e =piles[end] - dp[start][end-1];
+                dp[start][end] = max(s,e);
+            }
+        }
+        if(dp[0][n-1]>0) return true;
         else return false;
     }
 };
