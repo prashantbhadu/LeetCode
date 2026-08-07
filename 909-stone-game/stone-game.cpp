@@ -9,7 +9,7 @@ public:
     }
     bool stoneGame(vector<int>& piles) {
         int n=piles.size();
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        vector<vector<int>>dp(n+1,vector<int>(n,0));
         for(int start=n-1;start>=0;start--){
             for(int end=start+1;end<n;end++){
                 int s = piles[start] - dp[start+1][end];
